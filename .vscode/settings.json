@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3316,
+            "driver": "MySQL",
+            "name": "FYPkolej",
+            "database": "db_kolejkediaman",
+            "username": "root",
+            "password": ""
+        }
+    ],
+    "liveServer.settings.CustomBrowser": "chrome",
+    "liveServer.settings.ChromeDebuggingAttachment": false
+}

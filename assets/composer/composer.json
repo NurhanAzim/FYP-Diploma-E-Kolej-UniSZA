@@ -1,0 +1,18 @@
+{
+    "name": "composer/random",
+    "description": "library for generating random",
+    "autoload": {
+        "psr-4": {
+            "Composer\\Random\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Azim",
+            "email": "azim.nurhan.ahmad@gmail.com"
+        }
+    ],
+    "require": {
+        "paragonie/random_compat": "^9.99"
+    }
+}

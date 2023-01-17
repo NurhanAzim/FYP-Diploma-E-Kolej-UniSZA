@@ -1,0 +1,8 @@
+.masthead {
+  background-image: url('assets/media/wallpaper.png');
+  background-size:cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  position: relative;
+  left: 50%;
+}
