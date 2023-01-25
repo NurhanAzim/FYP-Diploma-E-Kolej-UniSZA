@@ -57,7 +57,7 @@ function validateForm(inputs) {
             }
         } else if (input.name == "program") {
             if (input.value.length == 0) {
-                showError(input, "Sila masukkan program pengajian");
+                showError(input, "Sila masukkan Kod Program");
                 input.focus();
                 return false;
             }

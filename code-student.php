@@ -23,7 +23,20 @@ if (isset($_POST['register_student-btn'])) {
         if ($checkemail_run && mysqli_num_rows($checkemail_run) > 0) { //check duplicate email
 
             $_SESSION['alert'] = "Email sudah pernah didaftarkan sebelum ini";
-            header("Location: student-register.php");
+?>
+            <script>
+                window.history.back();
+            </script>
+        <?php
+            exit(0);
+        } else if (!(preg_match("/^[a-zA-Z0-9._%+-]+@putra\.unisza\.edu\.my$/", $email))) {
+
+            $_SESSION['alert'] = "Sila masukkan email putra sahaja";
+        ?>
+            <script>
+                window.history.back();
+            </script>
+        <?php
             exit(0);
         } else {
             // Generate a truly random 6-digit ID
@@ -45,9 +58,14 @@ if (isset($_POST['register_student-btn'])) {
             }
         }
     } else {
+
         $_SESSION['alert'] = "Kata laluan tidak sama";
-        header("Location: student-register.php");
-        exit(0);
+        ?>
+            <script>
+                window.history.back();
+            </script>
+        <?php
+            exit(0);
     }
 }
 
@@ -55,12 +73,12 @@ if (isset($_POST['login_student-btn'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-    $query = "SELECT * FROM `tbl_student` WHERE `email`='$email' AND `password`='$password' LIMIT 1";
-    $query_run = $conn->query($query);
+    $checkCredential = "SELECT * FROM `tbl_student` WHERE `email`='$email' AND `password`='$password' LIMIT 1";
+    $checkCredential_run = $conn->query($checkCredential);
 
-    if (mysqli_num_rows($query_run) > 0) {
+    if (mysqli_num_rows($checkCredential_run) > 0) {
 
-        foreach ($query_run as $data) {
+        foreach ($checkCredential_run as $data) {
             $userId = $data['userId'];
             $username = $data['username'];
             $email = $data['email'];
@@ -72,11 +90,15 @@ if (isset($_POST['login_student-btn'])) {
             'email' => $email
         ];
         $_SESSION['alert'] = "Log masuk berjaya";
-        header("Location: home.php");
+        header("Location: term.php");
         exit(0);
     } else {
         $_SESSION['alert'] = "Email atau kata laluan salah";
-        header("Location: student-login.php");
+        ?>
+        <script>
+            window.history.back();
+        </script>
+    <?php
         exit(0);
     }
 }
@@ -84,7 +106,11 @@ if (isset($_POST['login_student-btn'])) {
 if (isset($_POST['student_edit-btn'])) {
 
     if (empty($_POST['username']) && empty($_POST['email'])) {
-        header("Location: admin-edit.php");
+    ?>
+        <script>
+            window.history.back();
+        </script>
+    <?php
         exit(0);
     }
     $adminId = (string) ['auth_user']['userId'];
@@ -96,7 +122,11 @@ if (isset($_POST['student_edit-btn'])) {
 
     if ($checkemail_run && mysqli_num_rows($checkemail_run) > 0) { //check duplicate email
         $_SESSION['message'] = "Email sudah pernah didaftarkan sebelum ini";
-        header("Location: admin-edit.php");
+    ?>
+        <script>
+            window.history.back();
+        </script>
+<?php
         exit(0);
     }
     $query = "UPDATE `admin` SET `username`='$username', `email`='$email' WHERE `adminId`='$adminId'";

@@ -8,8 +8,9 @@
     <title>E-Kolej UniSZA</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
 <body>
-    <div class="masthead" style="background-image: url('assets/media/wallpaper.png');">
+    <main>
 
 

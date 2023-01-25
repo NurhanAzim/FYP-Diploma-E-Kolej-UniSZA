@@ -1,24 +1,33 @@
 <?php
 session_start();
-include('includes/header.php');
-include('../includes/dbConn.php');
+if (($_SESSION['auth']) == false) {
+    header("Location: login.php");
+} else {
+    include('../includes/dbConn.php');
+    if (isset($_SESSION['alert'])) {
+        echo '<script>alert("' . $_SESSION['alert'] . '")</script>';
+        unset($_SESSION['alert']);
+    }
+    include('includes/header.php');
 ?>
-<div class="container-fluid px-4">
-    <h4 class="mt-4">Pelajar</h4>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Dashboard</li>
-        <li class="breadcrumb-item">Pelajar</li>
-    </ol>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
+    <div class="container-fluid px-4">
+        <h4 class="mt-4">Pelajar</h4>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item">Pelajar</li>
+            <li class="breadcrumb-item">Senarai Penghuni</li>
+        </ol>
+        <div class="card mb-4">
+            <form action="code-application-admin.php" method="post">
                 <div class="card-header">
-                    <h4>Senarai Penghuni Kolej Kediaman</h4>
+                    <h4>Senarai Penghuni Kolej Kediaman
+                    <button type="submit" name="delete_tenant-btn" onclick="return confirm('Adakah anda pasti mahu mengeluarkan penghuni tersebut daripada bilik?')" class="btn btn-danger float-end">Alih keluar</button>
+                    </h4>
                 </div>
                 <div class="card-body">
                     <table id="myDataTable" class="table table-bordered">
                         <thead>
                             <tr>
+                                <th style="width:10px; text-align: center;">#</th>
                                 <th>ID Bilik</th>
                                 <th>Nama</th>
                                 <th>E-mel</th>
@@ -37,27 +46,26 @@ include('../includes/dbConn.php');
                                 foreach ($query_run as $row) {
                             ?>
                                     <tr>
+                                        <td><input type="checkbox" name="delete_tenant_id[<?= $row['roomId']?>]" value="<?= $row['userId'] ?>"></td>
                                         <td><?= $row['roomId'] ?></td>
                                         <td><?= $row['username'] ?></td>
                                         <td><?= $row['email'] ?></td>
                                         <td><?= $row['program'] ?></td>
                                         <td><?= $row['year'] ?></td>
                                     </tr>
-                                <?php
+                            <?php
                                 }
                             }
-                                ?>
-                                
+                            ?>
+
                         </tbody>
                     </table>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
-</div>
-</div>
-</div>
+    </div>
 <?php
-include('includes/footer.php');
-include('includes/scripts.php');
+    include('includes/footer.php');
+    include('includes/scripts.php');
+}
 ?>

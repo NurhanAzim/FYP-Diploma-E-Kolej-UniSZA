@@ -11,13 +11,21 @@ if (isset($_POST['room_add-btn'])) {
 
     if ((filter_var($max_tenants, FILTER_VALIDATE_INT) === false) || (filter_var($current_tenants, FILTER_VALIDATE_INT) === false)) {
         $_SESSION['alert'] = "Sila masukkan nombor sahaja untuk kapasiti";
-        header("Location: room-add.php");
+?>
+        <script>
+            window.history.back();
+        </script>
+    <?php
         exit(0);
     }
 
     if ($current_tenants > $max_tenants) {
         $_SESSION['alert'] = "Kapasiti semasa tidak boleh melebihi kapasiti maksimum";
-        header("Location: room-add.php");
+    ?>
+        <script>
+            window.history.back();
+        </script>
+    <?php
         exit(0);
     }
 
@@ -27,7 +35,11 @@ if (isset($_POST['room_add-btn'])) {
 
     if ($checkSameRoom_run && mysqli_num_rows($checkSameRoom_run) > 0) {
         $_SESSION['alert'] = "Maklumat bilik sudah ada dalam sistem";
-        header("Location: room-add.php");
+    ?>
+        <script>
+            window.history.back();
+        </script>
+    <?php
         exit(0);
     }
     $roomId = $block . $floor . $roomNumber;
@@ -56,13 +68,21 @@ if (isset($_POST['room_edit-btn'])) {
 
     if ((filter_var($max_tenants, FILTER_VALIDATE_INT) === false) || (filter_var($current_tenants, FILTER_VALIDATE_INT) === false)) {
         $_SESSION['alert'] = "Sila masukkan nombor sahaja untuk kapasiti";
-        header("Location: room-view.php");
+    ?>
+        <script>
+            window.history.back();
+        </script>
+    <?php
         exit(0);
     }
 
     if ($current_tenants > $max_tenants) {
         $_SESSION['alert'] = "Kapasiti semasa tidak boleh melebihi kapasiti maksimum";
-        header("Location: room-view.php");
+    ?>
+        <script>
+            window.history.back();
+        </script>
+    <?php
         exit(0);
     }
 
@@ -70,19 +90,31 @@ if (isset($_POST['room_edit-btn'])) {
     $checkRoomTenant_run = $conn->query($checkRoomTenant);
     if ($max_tenants < mysqli_num_rows($checkRoomTenant_run)) {
         $_SESSION['alert'] = "Kapasiti maksimum tidak boleh lebih kecil daripada jumlah penghuni semasa";
-        header("Location: room-view.php");
+    ?>
+        <script>
+            window.history.back();
+        </script>
+    <?php
         exit(0);
     } else if ($current_tenants < mysqli_num_rows($checkRoomTenant_run)) {
         $_SESSION['alert'] = "Kapasiti semasa tidak boleh lebih kecil daripada jumlah penghuni semasa";
-        header("Location: room-view.php");
+    ?>
+        <script>
+            window.history.back();
+        </script>
+    <?php
         exit(0);
     }
 
-    $checkSameRoom = "SELECT `block`,`roomNumber`,`floor` FROM `tbl_room` WHERE `block`='$block' AND `roomNumber`='$roomNumber' AND `floor`='$floor'";
+    $checkSameRoom = "SELECT `block`,`roomNumber`,`floor` FROM `tbl_room` WHERE `block`='$block' AND `roomNumber`='$roomNumber' AND `floor`='$floor' AND `roomId`!='$roomId'";
     $checkSameRoom_run = $conn->query($checkSameRoom);
-    if ($checkSameRoom_run && mysqli_num_rows($checkSameRoom_run) > 0) {
+    if (mysqli_num_rows($checkSameRoom_run) > 0) {
         $_SESSION['alert'] = "Bilik dengan maklumat yang sama telah wujud";
-        header("Location: room-view.php");
+    ?>
+        <script>
+            window.history.back();
+        </script>
+    <?php
         exit(0);
     }
 
@@ -101,17 +133,42 @@ if (isset($_POST['room_edit-btn'])) {
 }
 
 if (isset($_POST['delete_room-btn'])) {
-    $roomId = mysqli_real_escape_string($conn, $_POST['delete_room-btn']);
-    $query = "DELETE FROM `tbl_room` WHERE `roomId`='$roomId'";
-    $query_run = $conn->query($query);
+    $getRoomId =  $_POST['delete_room_id'];
 
-    if ($query_run) {
+    if (empty($getRoomId)) {
+        $_SESSION['alert'] = "Sila pilih bilik yang ingin dihapuskan";
+        header("Location: room-view.php");
+        exit(0);
+    }
+
+    $roomId = implode(',', $getRoomId);
+
+    $checkTenant = "SELECT `roomId` FROM `tbl_application` WHERE `roomId` IN ('$roomId')";
+    $checkTenant_run = $conn->query($checkTenant);
+    if (mysqli_num_rows($checkTenant_run) > 0) {
+        $_SESSION['alert'] = "Terdapat bilik yang masih mempunyai penghuni. Sila padamkan penghuni terlebih dahulu";
+    ?>
+        <script>
+            window.history.back();
+        </script>
+    <?php
+        exit(0);
+    }
+
+    $deleteRoom = "DELETE FROM `tbl_room` WHERE `roomId` IN ('$roomId')";
+    $deleteRoom_run = $conn->query($deleteRoom);
+
+    if ($deleteRoom_run) {
         $_SESSION['alert'] = "Data bilik berjaya dihapuskan";
         header("Location: room-view.php");
         exit(0);
     } else {
         $_SESSION['alert'] = "Data bilik gagal dihapuskan";
-        header("Location: room-view.php");
+    ?>
+        <script>
+            window.history.back();
+        </script>
+<?php
         exit(0);
     }
 }

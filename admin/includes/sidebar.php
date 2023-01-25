@@ -3,19 +3,14 @@
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <div class="sb-sidenav-menu-heading">Core</div>
-                <a class="nav-link" href="dashboard.php">
+                <a class="nav-link" href="index.php">
                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                     Dashboard
                 </a>
-                <div class="sb-sidenav-menu-heading">Pelajar</div>
-                <a class="nav-link" href="tenant-list.php">
-                    <div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div>
-                    Senarai Penghuni
-                </a>
+                
                 <div class="sb-sidenav-menu-heading">Bilik</div>
                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                    <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
                     Maklumat Bilik
                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
@@ -35,9 +30,15 @@
                 <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="application-list.php">Permohonan Baru</a>
-                        <a class="nav-link" href="#">Another one</a>
+                        <a class="nav-link" href="application-verified.php">Permohonan Yang Disahkan</a>
                     </nav>
                 </div>
+
+                <div class="sb-sidenav-menu-heading">Pelajar</div>
+                <a class="nav-link" href="tenant-list.php">
+                    <div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div>
+                    Senarai Penghuni
+                </a>
             </div>
         </div>
     </nav>

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('includes/header.php');
 include('includes/navbar.php');
 
@@ -46,11 +47,15 @@ if (isset($_SESSION['alert'])) {
                                 </div>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <label>Program Pengajian</label><br>
+                                <label>Kod Program</label><br>
                                 <select id="program" name="program" data-placeholder="Pilih Program" class="form-control" required>
                                     <option value="">Pilih Program</option>
-                                    <option value="FIK">FIK</option>
-                                    <option value="FBIM">FBIM</option>
+                                    <option value="DSK">DSK</option>
+                                    <option value="DTM">DTM</option>
+                                    <option value="KRK">KRK</option>
+                                    <option value="KI">KI</option>
+                                    <option value="PP">PP</option>
+                                    <option value="IM">IM</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     sila pilih satu program
@@ -64,7 +69,7 @@ if (isset($_SESSION['alert'])) {
                                 </div>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <button type="submit" name="register_student-btn" class="btn btn-primary">Daftar</button>
+                                <button type="submit" name="register_student-btn" onclick="return confirm('Daftar akaun?'); "class="btn btn-primary">Daftar</button>
                             </div>
                         </form>
                     </div>
